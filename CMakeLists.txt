@@ -6,6 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_definitions(-std=c++14)
 
+include_directories(src)
 add_subdirectory(src)
 
 if (NOT NO_TESTS)
