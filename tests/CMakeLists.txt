@@ -1,6 +1,6 @@
 set(test_SRC
   main.cpp
-  sgp4.cpp
+  SatTest.cpp
   )
 
 add_executable(test_suite ${test_SRC})
