@@ -126,111 +126,64 @@ TEST_F(SomeTestVessels, OrbitCanBePredicted_SGP)
     ASSERT_THAT(parse_elements(vessels[0].c_str(), vessels[1].c_str(), &tle), Eq(0));
     SGP_init(satParams, &tle);
 
-    // minutes? really?
-    for (double minutesSinceEpoch = 0; minutesSinceEpoch <= 1440; minutesSinceEpoch += 360) {
-        ASSERT_THAT(SGP(minutesSinceEpoch, &tle, satParams, position, velocity), Eq(0));
-        checkResult(position, targetPosition, velocity, targetVelocity);
-        targetVelocity += 3;
-        targetPosition += 3;
+    for (int index = 0; index < 5; ++ index) {
+        ASSERT_THAT(SGP(index * 360.0f, &tle, satParams, position, velocity), Eq(0));
+        checkResult(position, &targetPosition[index * 3], velocity, &targetVelocity[index * 3]);
     }
 }
 
 TEST_F(SomeTestVessels, OrbitCanBePredicted_SGP4)
 {
-    double *testPosition = sgp4Positions;
-    double *testVelocity = sgp4Velocities;
+    double *targetPosition = sgp4Positions;
+    double *targetVelocity = sgp4Velocities;
 
     ASSERT_THAT(parse_elements(vessels[0].c_str(), vessels[1].c_str(), &tle), Eq(0));
     SGP4_init(satParams, &tle);
 
-    for (double minutesSinceEpoch = 0; minutesSinceEpoch <= 1440; minutesSinceEpoch += 360) {
-        ASSERT_THAT(SGP4(minutesSinceEpoch, &tle, satParams, position, velocity), Eq(0));
-
-        velocity[0] /= 60;
-        velocity[1] /= 60;
-        velocity[2] /= 60;
-
-        EXPECT_THAT(position[0], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[1], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[2], DoubleNear(*testPosition++, epsilon));
-
-        EXPECT_THAT(velocity[0], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[1], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[2], DoubleNear(*testVelocity++, epsilon));
+    for (int index = 0; index < 5; ++ index) {
+        ASSERT_THAT(SGP4(index * 360.0f, &tle, satParams, position, velocity), Eq(0));
+        checkResult(position, &targetPosition[index * 3], velocity, &targetVelocity[index * 3]);
     }
 }
 
 TEST_F(SomeTestVessels, OrbitCanBePredicted_SGP8)
 {
-    double *testPosition = sgp8Positions;
-    double *testVelocity = sgp8Velocities;
+    double *targetPosition = sgp8Positions;
+    double *targetVelocity = sgp8Velocities;
 
     ASSERT_THAT(parse_elements(vessels[0].c_str(), vessels[1].c_str(), &tle), Eq(0));
     SGP8_init(satParams, &tle);
 
-    for (double minutesSinceEpoch = 0; minutesSinceEpoch <= 1440; minutesSinceEpoch += 360) {
-        ASSERT_THAT(SGP8(minutesSinceEpoch, &tle, satParams, position, velocity), Eq(0));
-
-        velocity[0] /= 60;
-        velocity[1] /= 60;
-        velocity[2] /= 60;
-
-        EXPECT_THAT(position[0], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[1], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[2], DoubleNear(*testPosition++, epsilon));
-
-        EXPECT_THAT(velocity[0], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[1], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[2], DoubleNear(*testVelocity++, epsilon));
+    for (int index = 0; index < 5; ++ index) {
+        ASSERT_THAT(SGP8(index * 360.0f, &tle, satParams, position, velocity), Eq(0));
+        checkResult(position, &targetPosition[index * 3], velocity, &targetVelocity[index * 3]);
     }
 }
 
 TEST_F(SomeTestVessels, OrbitCanBePredicted_SDP4)
 {
-    double *testPosition = sdp4Positions;
-    double *testVelocity = sdp4Velocities;
+    double *targetPosition = sdp4Positions;
+    double *targetVelocity = sdp4Velocities;
 
     ASSERT_THAT(parse_elements(vessels[2].c_str(), vessels[3].c_str(), &tle), Eq(0));
     SDP4_init(satParams, &tle);
 
-    for (double minutesSinceEpoch = 0; minutesSinceEpoch <= 1440; minutesSinceEpoch += 360) {
-        ASSERT_THAT(SDP4(minutesSinceEpoch, &tle, satParams, position, velocity), Eq(0));
-
-        velocity[0] /= 60;
-        velocity[1] /= 60;
-        velocity[2] /= 60;
-
-        EXPECT_THAT(position[0], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[1], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[2], DoubleNear(*testPosition++, epsilon));
-
-        EXPECT_THAT(velocity[0], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[1], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[2], DoubleNear(*testVelocity++, epsilon));
+    for (int index = 0; index < 5; ++ index) {
+        ASSERT_THAT(SDP4(index * 360.0f, &tle, satParams, position, velocity), Eq(0));
+        checkResult(position, &targetPosition[index * 3], velocity, &targetVelocity[index * 3]);
     }
 }
 
 TEST_F(SomeTestVessels, OrbitCanBePredicted_SDP8)
 {
-    double *testPosition = sdp8Positions;
-    double *testVelocity = sdp8Velocities;
+    double *targetPosition = sdp8Positions;
+    double *targetVelocity = sdp8Velocities;
 
     ASSERT_THAT(parse_elements(vessels[2].c_str(), vessels[3].c_str(), &tle), Eq(0));
     SDP8_init(satParams, &tle);
 
-    for (double minutesSinceEpoch = 0; minutesSinceEpoch <= 1440; minutesSinceEpoch += 360) {
-        ASSERT_THAT(SDP8(minutesSinceEpoch, &tle, satParams, position, velocity), Eq(0));
-
-        velocity[0] /= 60;
-        velocity[1] /= 60;
-        velocity[2] /= 60;
-
-        EXPECT_THAT(position[0], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[1], DoubleNear(*testPosition++, epsilon));
-        EXPECT_THAT(position[2], DoubleNear(*testPosition++, epsilon));
-
-        EXPECT_THAT(velocity[0], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[1], DoubleNear(*testVelocity++, epsilon));
-        EXPECT_THAT(velocity[2], DoubleNear(*testVelocity++, epsilon));
+    for (int index = 0; index < 5; ++ index) {
+        ASSERT_THAT(SDP8(index * 360.0f, &tle, satParams, position, velocity), Eq(0));
+        checkResult(position, &targetPosition[index * 3], velocity, &targetVelocity[index * 3]);
     }
 }
